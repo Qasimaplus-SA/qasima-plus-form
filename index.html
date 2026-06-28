@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>قسيمة بلس — طلب توقيع الاتفاقية</title>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2XDGSM9B7Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2XDGSM9B7Y');
+</script>
+<!-- End GA4 -->
+
 <style>
   @font-face {
     font-family: 'Readex Pro';
@@ -575,6 +585,7 @@ function checkFields() {
 
   if (phone.length > 0 && !phoneValid) {
     phoneError.style.display = 'block';
+    gtag('event', 'validation_failed', { field: 'mobile' });
   } else {
     phoneError.style.display = 'none';
   }
@@ -594,6 +605,7 @@ var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzEIMKlUFMAekdjIlSZ9Mk
 
 // Track visit on page load
 window.addEventListener('load', function() {
+  gtag('event', 'form_view');
   var ref = new URLSearchParams(window.location.search).get('ref') || '';
   fetch(SCRIPT_URL, {
     method: 'POST',
@@ -606,6 +618,7 @@ window.addEventListener('load', function() {
 });
 
 function handleSubmit() {
+  gtag('event', 'sign_clicked');
   var btn = document.getElementById('ctaBtn');
   var name = document.getElementById('merchantName').value.trim();
   var phone = document.getElementById('merchantPhone').value.trim();
@@ -627,6 +640,7 @@ function handleSubmit() {
   })
   .then(function(res) { return res.json(); })
   .then(function(data) {
+    gtag('event', 'sign_success');
     btn.textContent = '✓ تم الإرسال، سيتم التواصل معك خلال 24 ساعة';
     btn.classList.add('success');
     btn.style.opacity = '1';
